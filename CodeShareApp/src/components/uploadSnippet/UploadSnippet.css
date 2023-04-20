@@ -1,0 +1,31 @@
+.form {
+	display: flex;
+	flex-direction: column;
+}
+.form label {
+	font-weight: bold;
+}
+.form input {
+	background-color: #E2F1CC;
+}
+.form input, .form textarea {
+	padding: 0.75em;
+}
+/*.form*/ textarea {
+	rows: 8;
+	color: var(--code-fg);
+	background-color: var(--code-bg);
+}
+.form button {
+	font-size: 1.2rem;
+/* 	border-radius: 0.6em; */
+	background-color: var(--tab-color);
+}
+.form button:hover {
+	background-color: var(--border-color);
+}
+
+button:disabled {
+	background-color: lightgray;
+/* 	color: var(--) */
+}

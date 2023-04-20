@@ -1,0 +1,88 @@
+:root {
+	--fg: #35341A;
+	--bg: #D2F3A5;
+	--code-fg: #09CF00;
+	--code-bg: black;
+	--border-color: #34A54C;
+	--code-font: Courier, monospace;
+	--tab-color: #8EB25D;
+}
+* {
+	box-sizing: border-box;
+}
+
+#borders:checked ~ .show-components .component {
+	border: 2px dashed red;
+	margin-bottom: 1em;
+}
+
+code, .code {
+	background-color: var(--code-bg);
+	color: var(--code-fg);
+	border: 3px solid var(--border-color);
+	border-radius: 0.3em;
+	margin: 1em 0;
+	padding: 1em 2em;
+	display: block;
+	font-family: var(--code-font);
+	font-size: 16px;
+}
+body {
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+	background-color: var(--bg);
+	color: var(--fg);
+	font-family: Open sans;
+	padding: 0.5em 1em;
+}
+hr {
+	border: 1px solid var(--border-color);
+	margin-bottom: 2em;
+}
+header {
+	border-bottom: 2px solid var(--border-color);
+}
+header h1 {
+	padding-left: 1rem;
+	margin: 0.3em 0px;
+	font-family: var(--code-font);
+}
+main {
+	padding: 0.5em 1em;
+/* 	background-color: #071E0C; */
+}
+section {
+	padding: 0.5em 0;
+}
+.framed {
+	box-shadow: 0px 0px 4px var(--border-color);
+	margin-top: 0.25em;
+	margin-bottom: 0.75em;
+	padding-left: 1em;
+}
+.intro {
+	font-style: italic;
+}
+
+/* .search input {
+	font-size: 110%;
+	padding: 0.3em 0.5em;
+} */
+
+button:hover {
+	cursor: pointer;
+}
+
+button {
+	padding: 0.3em 0.8em;
+	border: none;
+	transition: 0.5s all ease-in-out;
+}
+
+
+
+
+
+
+
