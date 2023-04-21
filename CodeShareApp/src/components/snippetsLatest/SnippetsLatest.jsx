@@ -1,19 +1,43 @@
 import './SnippetsLatest.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function SnippetsLatest() {
-    const [dataToDivs, setDataToDivs] = useState([])
+    const [data, setData] = useState([])
 
-    async function fetchLatestSnippets() {
-        const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?latest'
 
-        let response = await fetch(baseUrl)
-        let data = await response.json()
-        console.log(data)
 
+    useEffect(() => {
+        async function fetchLatestSnippets() {
+            const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?latest'
+    
+            let response = await fetch(baseUrl)
+            let data = await response.json()
+            console.log(data)
+            setData(data)
+    
+        }
+        fetchLatestSnippets()
+    }, [])
+
+
+
+    async function deleteSnippet(id) {
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?delete&id=`
+        const options = {
+            // method: 'GET',
+            // headers: { "content-type": "text/html" },
+		    // body: JSON.stringify({ id })
+        }
+        console.log(id)
+        console.log(`${baseUrl}${id}`)
+        const response = await fetch(`${baseUrl}${id}`, options)
+        console.log(response)
+
+        response.status === 200 ? setData(data.filter(snippet => snippet.id !== id))
+        : console.log('Error when deleting snippet!')
     }
 
-    fetchLatestSnippets()
+
     // console.log(dataToDivs)
     return (
         <div className="component">
@@ -25,41 +49,24 @@ function SnippetsLatest() {
             </section>
 
             <section>
-                <div className="vote">
-                    <code>let x=5;</code>
-                    <div className="vote-buttons">
-                        <button className="vote">🗑️</button>
-                        <button className="vote">✍️</button>
-                        <button className="vote">👍</button>
-                        <button className="vote">👎</button>
-                        <span className="score">5</span>
-                    </div>
-                </div>
+                
+                {data.map((snippet) => {
+        return (
+        <div className='vote' key={snippet.id}>
+            <code> {snippet.content} </code>
+            <div className="vote-buttons">
+                <button className="vote" onClick={() => {
+                    deleteSnippet(snippet.id)
+                }}>🗑️</button>
+                <button className="vote">✍️</button>
+                <button className="vote">👍</button>
+                <button className="vote">👎</button>
+                <span className="score"> {snippet.score} </span>
+            </div>
+        </div>
+        )
+    })}
 
-                {/* {dataToDivs} */}
-
-                <div className="vote">
-                    <textarea className="code" rows="4">let y = 8;</textarea>
-                    <div className="vote-buttons">
-                        <button className="vote">✔️</button>
-                        <button className="vote">❌</button>
-                    </div>
-                </div>
-
-
-                <div className="vote">
-                    <code>
-                        // Get a button
-                        let btn = document.querySelector('&amp;my-button')
-                    </code>
-                    <div className="vote-buttons">
-                        <button className="vote">🗑️</button>
-                        <button className="vote">✍️</button>
-                        <button className="vote">👍</button>
-                        <button className="vote">👎</button>
-                        <span className="score">25</span>
-                    </div>
-                </div>
             </section>
             <hr/>
         </div>
