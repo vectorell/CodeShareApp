@@ -5,17 +5,17 @@ function SnippetsLatest() {
     const [data, setData] = useState([])
 
 
+    async function fetchLatestSnippets() {
+        const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?latest'
+
+        let response = await fetch(baseUrl)
+        let data = await response.json()
+        console.log(data)
+        setData(data)
+
+    }
 
     useEffect(() => {
-        async function fetchLatestSnippets() {
-            const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?latest'
-    
-            let response = await fetch(baseUrl)
-            let data = await response.json()
-            console.log(data)
-            setData(data)
-    
-        }
         fetchLatestSnippets()
     }, [])
 
@@ -37,6 +37,45 @@ function SnippetsLatest() {
         : console.log('Error when deleting snippet!')
     }
 
+    async function upvote(id, score) {
+        console.log('upvote')
+        console.log(id)
+        console.log(score)
+
+
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?upvote&id=${id}`
+
+        const dataObj = {
+            upvote: '',
+            id: id
+        }
+
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataObj)
+        }
+
+        const response = await fetch(baseUrl, options)
+        console.log(response)
+        const fetchedData = await response.json()
+        console.log(fetchedData)
+
+        
+
+        setData(prevData => {
+            return prevData.map(snippet => {
+                if (snippet.id === fetchedData.id) {
+                    return {
+                        ...snippet,
+                        score: score + 1
+                    }
+                }
+                return snippet
+            })
+        })
+    }
+
 
     // console.log(dataToDivs)
     return (
@@ -55,12 +94,19 @@ function SnippetsLatest() {
         <div className='vote' key={snippet.id}>
             <code> {snippet.content} </code>
             <div className="vote-buttons">
+
                 <button className="vote" onClick={() => {
                     deleteSnippet(snippet.id)
                 }}>🗑️</button>
+
                 <button className="vote">✍️</button>
-                <button className="vote">👍</button>
+
+                <button className="vote" onClick={() => {
+                    upvote(snippet.id, snippet.score)
+                }}>👍</button>
+
                 <button className="vote">👎</button>
+
                 <span className="score"> {snippet.score} </span>
             </div>
         </div>
