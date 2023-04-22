@@ -37,18 +37,23 @@ function SnippetsLatest() {
         : console.log('Error when deleting snippet!')
     }
 
-    async function upvote(id, score) {
+    async function vote(id, score, type) {
         console.log('upvote')
         console.log(id)
         console.log(score)
 
 
-        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?upvote&id=${id}`
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?${type}&id=${id}`
 
-        const dataObj = {
-            upvote: '',
-            id: id
+        let dataObj = {
+            id: id,
         }
+
+        type === 'upvote' ? dataObj.upvote = ''    
+        : dataObj.downvote = ''    
+        
+
+
 
         const options = {
             method: 'POST',
@@ -65,10 +70,15 @@ function SnippetsLatest() {
 
         setData(prevData => {
             return prevData.map(snippet => {
-                if (snippet.id === fetchedData.id) {
+                if ((snippet.id === fetchedData.id) && type === 'upvote') {
                     return {
                         ...snippet,
                         score: score + 1
+                    }
+                } else if ((snippet.id === fetchedData.id) && type === 'downvote') {
+                    return {
+                        ...snippet,
+                        score: score - 1
                     }
                 }
                 return snippet
@@ -102,10 +112,12 @@ function SnippetsLatest() {
                 <button className="vote">✍️</button>
 
                 <button className="vote" onClick={() => {
-                    upvote(snippet.id, snippet.score)
+                    vote(snippet.id, snippet.score, 'upvote')
                 }}>👍</button>
 
-                <button className="vote">👎</button>
+                <button className="vote" onClick={() => {
+                    vote(snippet.id, snippet.score, 'downvote')
+                }}>👎</button>
 
                 <span className="score"> {snippet.score} </span>
             </div>
