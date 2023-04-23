@@ -22,15 +22,21 @@ function SnippetsLatest() {
 
 
     async function deleteSnippet(id) {
-        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?delete&id=`
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php`
+
+        const dataDelete = {
+            delete: '',
+            id: id,
+        }
+
         const options = {
-            // method: 'GET',
-            // headers: { "content-type": "text/html" },
-		    // body: JSON.stringify({ id })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataDelete)
         }
         console.log(id)
         console.log(`${baseUrl}${id}`)
-        const response = await fetch(`${baseUrl}${id}`, options)
+        const response = await fetch(`${baseUrl}`, options)
         console.log(response)
 
         response.status === 200 ? setData(data.filter(snippet => snippet.id !== id))
@@ -38,12 +44,11 @@ function SnippetsLatest() {
     }
 
     async function vote(id, score, type) {
-        console.log('upvote')
         console.log(id)
         console.log(score)
 
 
-        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?${type}&id=${id}`
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php`
 
         let dataObj = {
             id: id,
