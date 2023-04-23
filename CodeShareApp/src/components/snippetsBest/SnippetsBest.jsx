@@ -6,7 +6,7 @@ function SnippetsBest() {
 
 
     async function fetchBestSnippets() {
-        const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?Best'
+        const baseUrl = 'https://www.forverkliga.se/JavaScript/api/api-snippets.php?best'
 
         let response = await fetch(baseUrl)
         let data = await response.json()
@@ -22,20 +22,27 @@ function SnippetsBest() {
 
 
     async function deleteSnippet(id) {
-        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php?delete&id=`
+        const baseUrl = `https://www.forverkliga.se/JavaScript/api/api-snippets.php`
+
+        const dataDelete = {
+            delete: '',
+            id: id,
+        }
+
         const options = {
-            // method: 'GET',
-            // headers: { "content-type": "text/html" },
-		    // body: JSON.stringify({ id })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataDelete)
         }
         console.log(id)
         console.log(`${baseUrl}${id}`)
-        const response = await fetch(`${baseUrl}${id}`, options)
+        const response = await fetch(`${baseUrl}`, options)
         console.log(response)
 
         response.status === 200 ? setData(data.filter(snippet => snippet.id !== id))
         : console.log('Error when deleting snippet!')
     }
+
 
     async function vote(id, score, type) {
         console.log(id)
@@ -92,7 +99,7 @@ function SnippetsBest() {
                 
             <section className="framed">
                 <span className="intro">
-                    The latest snippets from coders like you!
+                    The best snippets from coders like you!
                 </span>
             </section>
 
